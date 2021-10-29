@@ -24,6 +24,13 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             (clerk_fname, clerk_lname, clerk_email, clerk_mobile) 
             VALUES (:first_name, :last_name, :email, :mobile)"
         );
+    } else if ($user_type == 'client') {
+        $statement = $pdo->prepare(
+            "INSERT INTO client 
+            (client_fname, client_lname, client_email, client_mobile, client_id_no) 
+            VALUES (:first_name, :last_name, :email, :mobile, :id_no)"
+        );
+        $statement->bindValue(':id_no', $_POST['id_no']);
     }
 
     $statement->bindValue(":first_name", $_POST['first_name']);
@@ -47,6 +54,12 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             (login_email, login_password, login_clerk_id)
             VALUES (:email, :password, :id)"
         );
+    } else if ($user_type == "client") {
+        $statement = $pdo->prepare(
+            "INSERT INTO login
+            (login_email, login_password, login_client_id)
+            VALUES (:email, :password, :id)"
+        );
     }
     $statement->bindValue("email", $_POST['email']);
     $statement->bindValue(":password", $password);
@@ -63,6 +76,9 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         exit;
     } else if ($user_type == 'clerk') {
         header('Location: clerk.php');
+        exit;
+    } else if ($user_type == 'client') {
+        header('Location: client.php');
         exit;
     }
 }
@@ -84,11 +100,13 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             <div class="form-group form-options">
                 <p class="form-option">User Type:</p>
                 <?php if (!$result) : ?>
-                    <input type="radio" name="user_type" id="admin" value="admin" required>
+                    <input type="radio" name="user_type" id="admin" value="admin" onclick="showClientFields()">
                     <label for="admin">Admin</label>
                 <?php endif; ?>
-                <input type="radio" name="user_type" id="clerk" value="clerk">
+                <input type="radio" name="user_type" id="clerk" value="clerk" onclick="showClientFields()" required>
                 <label for="clerk">Clerk</label>
+                <input type="radio" name="user_type" id="client" value="client" onclick="showClientFields()">
+                <label for="client">Client</label>
             </div>
             <hr>
             <div class="form-group">
@@ -106,6 +124,12 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             <div class="form-group">
                 <label for="mobile">Phone Number</label>
                 <input type="text" name="mobile" id="mobile" maxlength="10" placeholder="Enter your phone number" required>
+            </div>
+            <div id="client_fields" style="display: none;">
+                <div class="form-group">
+                    <label for="id_no">National ID No.</label>
+                    <input type="text" name="id_no" id="id_no" maxlength="8" placeholder="Enter your ID number" disabled>
+                </div>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>

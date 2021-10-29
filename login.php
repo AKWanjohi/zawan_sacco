@@ -34,20 +34,29 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                     "SELECT * FROM clerk WHERE clerk_id=:id"
                 );
                 $statement->bindValue(":id", $result['login_clerk_id']);
+            } else if ($result['login_client_id']) {
+                $user_type = 'client';
+                $statement = $pdo->prepare(
+                    "SELECT * FROM client WHERE client_id=:id"
+                );
+                $statement->bindValue(":id", $result['login_client_id']);
             }
             $statement->execute();
             $user = $statement->fetch(PDO::FETCH_ASSOC);
 
             $_SESSION['user_type'] = $user_type;
-            $_SESSION['user_id'] = $user['admin_id'] ?? $user['clerk_id'];
-            $_SESSION['user_fname'] = $user['admin_fname'] ?? $user['clerk_fname'];
-            $_SESSION['user_lname'] = $user['admin_lname'] ?? $user['clerk_lname'];
+            $_SESSION['user_id'] = $user['admin_id'] ?? $user['clerk_id'] ?? $user['client_id'];
+            $_SESSION['user_fname'] = $user['admin_fname'] ?? $user['clerk_fname'] ?? $user['client_fname'];
+            $_SESSION['user_lname'] = $user['admin_lname'] ?? $user['clerk_lname'] ?? $user['client_lname'];
 
             if ($user_type == 'admin') {
                 header('Location: admin.php');
                 exit;
             } else if ($user_type == 'clerk') {
                 header('Location: clerk.php');
+                exit;
+            } else if ($user_type == 'client') {
+                header('Location: client.php');
                 exit;
             }
         } else {
