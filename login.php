@@ -23,19 +23,16 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     if ($result) {
         if (password_verify($_POST['password'], $result['login_password'])) {
             if ($result['login_admin_id']) {
-                $user_type = 'admin';
                 $statement = $pdo->prepare(
                     "SELECT * FROM admin WHERE admin_id=:id"
                 );
                 $statement->bindValue(":id", $result['login_admin_id']);
             } else if ($result['login_clerk_id']) {
-                $user_type = 'clerk';
                 $statement = $pdo->prepare(
                     "SELECT * FROM clerk WHERE clerk_id=:id"
                 );
                 $statement->bindValue(":id", $result['login_clerk_id']);
             } else if ($result['login_client_id']) {
-                $user_type = 'client';
                 $statement = $pdo->prepare(
                     "SELECT * FROM client WHERE client_id=:id"
                 );
@@ -43,6 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             }
             $statement->execute();
             $user = $statement->fetch(PDO::FETCH_ASSOC);
+
+            $user_type = $result['login_rank'];
 
             $_SESSION['user_type'] = $user_type;
             $_SESSION['user_id'] = $user['admin_id'] ?? $user['clerk_id'] ?? $user['client_id'];

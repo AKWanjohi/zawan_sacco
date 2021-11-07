@@ -45,24 +45,25 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     if ($user_type == "admin") {
         $statement = $pdo->prepare(
             "INSERT INTO login
-            (login_email, login_password, login_admin_id)
-            VALUES (:email, :password, :id)"
+            (login_email, login_password, login_rank, login_admin_id)
+            VALUES (:email, :password, :rank, :id)"
         );
     } else if ($user_type == "clerk") {
         $statement = $pdo->prepare(
             "INSERT INTO login
-            (login_email, login_password, login_clerk_id)
-            VALUES (:email, :password, :id)"
+            (login_email, login_password, login_rank, login_clerk_id)
+            VALUES (:email, :password, :rank, :id)"
         );
     } else if ($user_type == "client") {
         $statement = $pdo->prepare(
             "INSERT INTO login
-            (login_email, login_password, login_client_id)
-            VALUES (:email, :password, :id)"
+            (login_email, login_password, login_rank, login_client_id)
+            VALUES (:email, :password, :rank, :id)"
         );
     }
     $statement->bindValue("email", $_POST['email']);
     $statement->bindValue(":password", $password);
+    $statement->bindValue(":rank", $user_type);
     $statement->bindValue(":id", $user_id);
     $statement->execute();
 
