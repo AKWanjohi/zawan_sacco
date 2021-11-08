@@ -176,6 +176,10 @@ button[type="submit"] {
   background-color: #666;
 }
 
+.btn-create {
+  background-color: var(--primary-color);
+}
+
 /* Tables */
 table {
   margin-top: 1rem;
@@ -202,4 +206,23 @@ td {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.actions a {
+  margin: 0 0.5rem;
+}
+
+.actions a.delete {
+  color: #ff5e5e;
+}
+
+.actions a.disabled {
+  color: #666;
+  pointer-events: none;
+}
+
+/* Others */
+.confirm-delete {
+  margin-bottom: 1rem;
+  font-size: 2.4rem;
 }
