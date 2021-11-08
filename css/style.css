@@ -41,13 +41,18 @@ header ul {
 }
 
 header li a {
-  padding: 0.5rem 2rem;
+  padding: 0.5rem 1.5rem;
   text-transform: uppercase;
   color: inherit;
 }
 
 header li a:hover {
   border-bottom: 2px solid;
+}
+
+header .welcome {
+  border-right: 0.2rem solid;
+  padding-right: 1rem;
 }
 
 main {
@@ -81,7 +86,8 @@ form a,
   text-transform: uppercase;
 }
 
-input {
+input,
+textarea {
   width: 100%;
   margin-top: 0.5rem;
   padding: 0.5rem;
@@ -90,6 +96,11 @@ input {
 
 input[type="radio"] {
   width: max-content;
+}
+
+textarea {
+  resize: none;
+  height: 15rem;
 }
 
 form a:hover {
@@ -131,4 +142,64 @@ button[type="submit"] {
   padding: 1rem;
   background-color: #ff5e5e;
   color: #fff;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.control {
+  margin: 0 2rem;
+  padding: 4rem;
+  width: 20rem;
+  background-color: var(--primary-color);
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn {
+  padding: 1rem 2rem;
+  color: #fff;
+}
+
+.btn-cancel {
+  background-color: #666;
+}
+
+/* Tables */
+table {
+  margin-top: 1rem;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 0.5rem;
+  border: 0.1rem solid #666;
+}
+
+th {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+td {
+  text-align: center;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
