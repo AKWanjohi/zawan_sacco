@@ -75,6 +75,10 @@ form {
   margin-top: 2rem;
 }
 
+.delete-form {
+  max-width: 100%;
+}
+
 form hr {
   margin-bottom: 1rem;
 }

@@ -63,11 +63,11 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         </div>
         <hr>
         <div>
-            <form method="POST">
+            <form class="delete-form" method="POST">
                 <input type="text" name="user_type" value="<?php echo $user_type ?>" hidden>
                 <input type="text" name="user_id" value="<?php echo $user_id ?>" hidden>
                 <p class="confirm-delete">
-                    Are you sure you want to delete <?php echo $first_name . " " . $last_name ?>?
+                    Are you sure you want to delete "<?php echo $first_name . " " . $last_name ?>"?
                 </p>
                 <button type="submit">Confirm</button>
             </form>
