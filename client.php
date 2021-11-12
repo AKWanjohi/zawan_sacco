@@ -11,6 +11,8 @@ include 'components/header.php';
         <a href="create_account.php" class="control">Create an Account</a>
         <a href="view_accounts.php" class="control">View Accounts</a>
         <a href="savings.php" class="control">Save Money</a>
+        <a href="request_loan.php" class="control">Request Loan</a>
+        <a href="view_loans.php" class="control">View Loans</a>
     </div>
 </main>
 

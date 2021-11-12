@@ -156,7 +156,7 @@ button[type="submit"] {
 }
 
 .control {
-  margin: 0 2rem;
+  margin: 0 2rem 2rem;
   padding: 4rem;
   width: 20rem;
   background-color: var(--primary-color);
