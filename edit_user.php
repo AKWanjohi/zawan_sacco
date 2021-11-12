@@ -98,7 +98,11 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                 <a href="view_users.php?user=clerks" class="btn btn-cancel">Back</a>
             <?php elseif ($user_type == 'client') : ?>
                 <h1>Edit Client</h1>
-                <a href="view_users.php?user=clients" class="btn btn-cancel">Back</a>
+                <?php if ($_SESSION['user_type'] == 'admin') : ?>
+                    <a href="view_users.php?user=clients" class="btn btn-cancel">Back</a>
+                <?php elseif ($_SESSION['user_type'] == 'client') : ?>
+                    <a href="client.php" class="btn btn-cancel">Back</a>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
         <hr>
@@ -124,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             <?php if ($user_type == 'client') : ?>
                 <div class="form-group">
                     <label for="id_no">National ID No.</label>
-                    <input type="text" name="id_no" id="id_no" maxlength="8" value="<?php echo $id_no ?>" required>
+                    <input type="text" name="id_no" id="id_no" maxlength="8" value="<?php echo $id_no ?>" readonly required>
                 </div>
             <?php endif; ?>
             <div class="form-action-group">

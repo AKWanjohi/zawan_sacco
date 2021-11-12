@@ -87,7 +87,8 @@ form a,
 }
 
 input,
-textarea {
+textarea,
+select {
   width: 100%;
   margin-top: 0.5rem;
   padding: 0.5rem;
@@ -210,6 +211,7 @@ td {
 
 .actions a {
   margin: 0 0.5rem;
+  color: #0066cc;
 }
 
 .actions a.delete {

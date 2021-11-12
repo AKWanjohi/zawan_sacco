@@ -7,8 +7,10 @@ include 'components/header.php';
 
 <main>
     <div class="container controls">
+        <a href="edit_user.php?user=client&id=<?php echo $_SESSION['user_id'] ?>" class="control">Edit Details</a>
         <a href="create_account.php" class="control">Create an Account</a>
         <a href="view_accounts.php" class="control">View Accounts</a>
+        <a href="savings.php" class="control">Save Money</a>
     </div>
 </main>
 
