@@ -10,6 +10,7 @@ include 'components/header.php';
         <a href="view_users.php?user=admins" class="control">View Admins</a>
         <a href="view_users.php?user=clerks" class="control">View Clerks</a>
         <a href="view_users.php?user=clients" class="control">View Cients</a>
+        <a href="view_loan_types.php" class="control">View Loan Types</a>
     </div>
 </main>
 
