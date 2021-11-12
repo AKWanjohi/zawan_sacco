@@ -76,12 +76,18 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $statement->bindValue(":id", $user_id);
     $statement->execute();
 
-    if ($user_type == 'admin') {
-        header('Location: view_users.php?user=admins');
-    } elseif ($user_type == 'clerk') {
-        header('Location: view_users.php?user=clerks');
-    } elseif ($user_type == 'client') {
-        header('Location: view_users.php?user=clients');
+    if ($_SESSION['user_type'] == 'admin') {
+        if ($user_type == 'admin') {
+            header('Location: view_users.php?user=admins');
+        } elseif ($user_type == 'clerk') {
+            header('Location: view_users.php?user=clerks');
+        } elseif ($user_type == 'client') {
+            header('Location: view_users.php?user=clients');
+        }
+    } elseif ($_SESSION['user_type'] == 'client') {
+        header('Location: client.php');
+    } elseif ($_SESSION['user_type'] == 'clerk') {
+        header('Location: clerk.php');
     }
 }
 
@@ -95,7 +101,11 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                 <a href="view_users.php?user=admins" class="btn btn-cancel">Back</a>
             <?php elseif ($user_type == 'clerk') : ?>
                 <h1>Edit Clerk</h1>
-                <a href="view_users.php?user=clerks" class="btn btn-cancel">Back</a>
+                <?php if ($_SESSION['user_type'] == 'clerk') : ?>
+                    <a href="clerk.php" class="btn btn-cancel">Back</a>
+                <?php elseif ($_SESSION['user_type'] == "admin") : ?>
+                    <a href="view_users.php?user=clerks" class="btn btn-cancel">Back</a>
+                <?php endif; ?>
             <?php elseif ($user_type == 'client') : ?>
                 <h1>Edit Client</h1>
                 <?php if ($_SESSION['user_type'] == 'admin') : ?>
