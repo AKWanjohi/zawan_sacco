@@ -11,6 +11,7 @@ include 'components/header.php';
         <a href="view_users.php?user=clerks" class="control">View Clerks</a>
         <a href="view_users.php?user=clients" class="control">View Cients</a>
         <a href="view_loan_types.php" class="control">View Loan Types</a>
+        <a href="charge_members.php" class="control">Charge Members</a>
     </div>
 </main>
 

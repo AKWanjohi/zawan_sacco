@@ -23,6 +23,24 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $statement->bindValue(":new_balance", $new_balance);
         $statement->bindValue(":account_id", $_POST['account_id']);
         $statement->execute();
+
+        $statement = $pdo->prepare(
+            "INSERT INTO charge (charge_type, charge_client_id, charge_loan_id, charge_amount) 
+            VALUES (:type, :client_id, :loan_id, :amount)"
+        );
+        $statement->bindValue(":type", 'loan');
+        $statement->bindValue(":client_id", $_POST['client_id']);
+        $statement->bindValue(":loan_id", $_POST['loan_id']);
+        $statement->bindValue(":amount", $_POST['loan_amount'] * 0.12);
+        $statement->execute();
+
+        $statement = $pdo->prepare(
+            "INSERT INTO loan_charge (loan_charge_charge_id, loan_charge_loan_id) 
+            VALUES (:charge_id, :loan_id)"
+        );
+        $statement->bindValue(":charge_id", $pdo->lastInsertId());
+        $statement->bindValue(":loan_id", $_POST['loan_id']);
+        $statement->execute();
     }
     header('Location: pending_loans.php');
     exit;
@@ -62,6 +80,7 @@ $loan = $statement->fetch(PDO::FETCH_ASSOC);
         <div class="loan-details-actions">
             <form method="POST">
                 <input type="text" name="status" value="1" hidden>
+                <input type="text" name="client_id" value="<?php echo $loan['client_id'] ?>" hidden>
                 <input type="text" name="loan_id" value="<?php echo $loan['loan_id'] ?>" hidden>
                 <input type="text" name="account_id" value="<?php echo $loan['account_id'] ?>" hidden>
                 <input type="number" name="loan_amount" value="<?php echo $loan['loan_requested_amount'] ?>" hidden>
