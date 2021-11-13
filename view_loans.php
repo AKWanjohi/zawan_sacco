@@ -59,15 +59,17 @@ $loans = $statement->fetchAll(PDO::FETCH_ASSOC);
                         <td><?php echo date_format(date_create($loan['loan_requested_date']), 'd-m-Y') ?></td>
                         <td>
                             <?php
-                            if ($loan['loan_status']) {
+                            if ($loan['loan_status'] == '1') {
                                 echo "Approved";
+                            } elseif ($loan['loan_status'] == '0') {
+                                echo "Rejected";
                             } else {
                                 echo "Not Approved";
                             }
                             ?>
                         </td>
                         <td>
-                            <?php if ($loan['loan_repayment_amount']) {
+                            <?php if ($loan['loan_status'] == '1') {
                                 echo 'Kshs. ' . number_format($loan['loan_repayment_amount']);
                             } else {
                                 echo "";
@@ -75,7 +77,7 @@ $loans = $statement->fetchAll(PDO::FETCH_ASSOC);
                             ?>
                         </td>
                         <td>
-                            <?php if ($loan['loan_requested_premium_amount']) {
+                            <?php if ($loan['loan_status'] == '1') {
                                 echo 'Kshs. ' . number_format($loan['loan_requested_premium_amount']);
                             } else {
                                 echo "";
@@ -91,7 +93,13 @@ $loans = $statement->fetchAll(PDO::FETCH_ASSOC);
                             }
                             ?>
                         </td>
-                        <td class="actions"><a href="payment.php?type=loan&id=<?php echo $loan['loan_id'] ?>">Pay</a></td>
+                        <td class="actions">
+                            <?php if (($loan['loan_status'] == '1') && ($loan['loan_repayment_amount'] < $loan['loan_requested_amount'])) : ?>
+                                <a href="payment.php?type=loan&id=<?php echo $loan['loan_id'] ?>">Pay</a>
+                            <?php else : ?>
+                                <a href="payment.php?type=loan&id=<?php echo $loan['loan_id'] ?>" class="disabled">Pay</a>
+                            <?php endif; ?>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
