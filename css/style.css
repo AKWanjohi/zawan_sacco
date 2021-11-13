@@ -232,3 +232,30 @@ td {
   margin-bottom: 1rem;
   font-size: 2.4rem;
 }
+
+.loan-details p {
+  margin-bottom: 1rem;
+  font-weight: bold;
+  font-size: 2rem;
+  display: flex;
+  justify-content: space-between;
+  width: max-content;
+}
+
+.loan-details p span {
+  font-weight: normal;
+  margin-left: 1rem;
+}
+
+.loan-details-actions {
+  display: flex;
+}
+
+.loan-details-actions form:first-child {
+  margin-right: 1rem;
+}
+
+.loan-details-actions .reject-btn {
+  background-color: #ff5e5e;
+  border-color: #ff5e5e;
+}
