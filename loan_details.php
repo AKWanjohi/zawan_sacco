@@ -72,7 +72,8 @@ $loan = $statement->fetch(PDO::FETCH_ASSOC);
         <div class="loan-details">
             <p>Requester: <span><?php echo $loan['client_fname'] . " " . $loan['client_lname'] ?></span></p>
             <p>Requester ID No.: <span><?php echo $loan['client_id_no'] ?></span></p>
-            <p>Requester Acc. Bal.: <span><?php echo 'Kshs. ' . number_format($loan['account_total_balance']) ?></span></p>
+            <p>Current Savings: <span><?php echo 'Kshs. ' . number_format($loan['account_total_balance']) ?></span></p>
+            <p>Loan Limit: <span><?php echo 'Kshs. ' . number_format($loan['account_total_balance'] * 2) ?></span></p>
             <p>Loan Type: <span><?php echo $loan['loan_type_name'] ?></span></p>
             <p>Requested Amount: <span><?php echo 'Kshs. ' . number_format($loan['loan_requested_amount']) ?></span></p>
             <p>Requested Date: <span><?php echo date_format(date_create($loan['loan_requested_date']), 'd-m-Y') ?></span></p>
