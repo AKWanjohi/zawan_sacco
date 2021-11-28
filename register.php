@@ -9,78 +9,123 @@ include 'components/header.php';
 
 require 'components/database.php';
 
+$messages = [];
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $user_type = $_POST['user_type'];
 
     if ($user_type == 'admin') {
-        $statement = $pdo->prepare(
-            "INSERT INTO admin 
-            (admin_fname, admin_lname, admin_email, admin_mobile) 
-            VALUES (:first_name, :last_name, :email, :mobile)"
-        );
+        $statement = $pdo->prepare("SELECT admin_mobile FROM admin WHERE admin_mobile=:mobile");
+        $statement->bindValue(":mobile", $_POST['mobile']);
+        $statement->execute();
+        $mobile = $statement->fetch(PDO::FETCH_COLUMN);
+
+        $statement = $pdo->prepare("SELECT admin_email FROM admin WHERE admin_email=:email");
+        $statement->bindValue(":email", $_POST['email']);
+        $statement->execute();
+        $email = $statement->fetch(PDO::FETCH_COLUMN);
+
     } else if ($user_type == 'clerk') {
-        $statement = $pdo->prepare(
-            "INSERT INTO clerk 
-            (clerk_fname, clerk_lname, clerk_email, clerk_mobile) 
-            VALUES (:first_name, :last_name, :email, :mobile)"
-        );
+        $statement = $pdo->prepare("SELECT clerk_mobile FROM clerk WHERE clerk_mobile=:mobile");
+        $statement->bindValue(":mobile", $_POST['mobile']);
+        $statement->execute();
+        $mobile = $statement->fetch(PDO::FETCH_COLUMN);
+
+        $statement = $pdo->prepare("SELECT clerk_email FROM clerk WHERE clerk_email=:email");
+        $statement->bindValue(":email", $_POST['email']);
+        $statement->execute();
+        $email = $statement->fetch(PDO::FETCH_COLUMN);
+
     } else if ($user_type == 'client') {
-        $statement = $pdo->prepare(
-            "INSERT INTO client 
-            (client_fname, client_lname, client_email, client_mobile, client_id_no) 
-            VALUES (:first_name, :last_name, :email, :mobile, :id_no)"
-        );
-        $statement->bindValue(':id_no', $_POST['id_no']);
+        $statement = $pdo->prepare("SELECT client_mobile FROM client WHERE client_mobile=:mobile");
+        $statement->bindValue(":mobile", $_POST['mobile']);
+        $statement->execute();
+        $mobile = $statement->fetch(PDO::FETCH_COLUMN);
+
+        $statement = $pdo->prepare("SELECT client_email FROM client WHERE client_email=:email");
+        $statement->bindValue(":email", $_POST['email']);
+        $statement->execute();
+        $email = $statement->fetch(PDO::FETCH_COLUMN);
     }
 
-    $statement->bindValue(":first_name", $_POST['first_name']);
-    $statement->bindValue(":last_name", $_POST['last_name']);
-    $statement->bindValue(":email", $_POST['email']);
-    $statement->bindValue(":mobile", $_POST['mobile']);
-    $statement->execute();
-
-    $user_id = $pdo->lastInsertId();
-    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-
-    if ($user_type == "admin") {
-        $statement = $pdo->prepare(
-            "INSERT INTO login
-            (login_email, login_password, login_rank, login_admin_id)
-            VALUES (:email, :password, :rank, :id)"
-        );
-    } else if ($user_type == "clerk") {
-        $statement = $pdo->prepare(
-            "INSERT INTO login
-            (login_email, login_password, login_rank, login_clerk_id)
-            VALUES (:email, :password, :rank, :id)"
-        );
-    } else if ($user_type == "client") {
-        $statement = $pdo->prepare(
-            "INSERT INTO login
-            (login_email, login_password, login_rank, login_client_id)
-            VALUES (:email, :password, :rank, :id)"
-        );
-    }
-    $statement->bindValue("email", $_POST['email']);
-    $statement->bindValue(":password", $password);
-    $statement->bindValue(":rank", $user_type);
-    $statement->bindValue(":id", $user_id);
-    $statement->execute();
-
-    $_SESSION['user_type'] = $user_type;
-    $_SESSION['user_id'] = $user_id;
-    $_SESSION['user_fname'] = $_POST['first_name'];
-    $_SESSION['user_lname'] = $_POST['last_name'];
-
-    if ($user_type == 'admin') {
-        header('Location: admin.php');
-        exit;
-    } else if ($user_type == 'clerk') {
-        header('Location: clerk.php');
-        exit;
-    } else if ($user_type == 'client') {
-        header('Location: client.php');
-        exit;
+    if ($mobile && $email) {
+        array_push($messages, "A user with the same mobile number already exists.");
+        array_push($messages, "A user with the same email already exists.");
+    } else if ($email) {
+        array_push($messages, "A user with the same email already exists.");
+    } else if ($mobile) {
+        array_push($messages, "A user with the same mobile number already exists.");
+    } else {
+        if ($user_type == 'admin') {
+            $statement = $pdo->prepare(
+                "INSERT INTO admin 
+                (admin_fname, admin_lname, admin_email, admin_mobile) 
+                VALUES (:first_name, :last_name, :email, :mobile)"
+            );
+    
+        } else if ($user_type == 'clerk') {
+            $statement = $pdo->prepare(
+                "INSERT INTO clerk 
+                (clerk_fname, clerk_lname, clerk_email, clerk_mobile) 
+                VALUES (:first_name, :last_name, :email, :mobile)"
+            );
+        } else if ($user_type == 'client') {
+            $statement = $pdo->prepare(
+                "INSERT INTO client 
+                (client_fname, client_lname, client_email, client_mobile, client_id_no) 
+                VALUES (:first_name, :last_name, :email, :mobile, :id_no)"
+            );
+            $statement->bindValue(':id_no', $_POST['id_no']);
+        }
+    
+        $statement->bindValue(":first_name", $_POST['first_name']);
+        $statement->bindValue(":last_name", $_POST['last_name']);
+        $statement->bindValue(":email", $_POST['email']);
+        $statement->bindValue(":mobile", $_POST['mobile']);
+        $statement->execute();
+    
+        $user_id = $pdo->lastInsertId();
+        $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+    
+        if ($user_type == "admin") {
+            $statement = $pdo->prepare(
+                "INSERT INTO login
+                (login_email, login_password, login_rank, login_admin_id)
+                VALUES (:email, :password, :rank, :id)"
+            );
+        } else if ($user_type == "clerk") {
+            $statement = $pdo->prepare(
+                "INSERT INTO login
+                (login_email, login_password, login_rank, login_clerk_id)
+                VALUES (:email, :password, :rank, :id)"
+            );
+        } else if ($user_type == "client") {
+            $statement = $pdo->prepare(
+                "INSERT INTO login
+                (login_email, login_password, login_rank, login_client_id)
+                VALUES (:email, :password, :rank, :id)"
+            );
+        }
+        $statement->bindValue("email", $_POST['email']);
+        $statement->bindValue(":password", $password);
+        $statement->bindValue(":rank", $user_type);
+        $statement->bindValue(":id", $user_id);
+        $statement->execute();
+    
+        $_SESSION['user_type'] = $user_type;
+        $_SESSION['user_id'] = $user_id;
+        $_SESSION['user_fname'] = $_POST['first_name'];
+        $_SESSION['user_lname'] = $_POST['last_name'];
+    
+        if ($user_type == 'admin') {
+            header('Location: admin.php');
+            exit;
+        } else if ($user_type == 'clerk') {
+            header('Location: clerk.php');
+            exit;
+        } else if ($user_type == 'client') {
+            header('Location: client.php');
+            exit;
+        }
     }
 }
 
@@ -98,6 +143,13 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $result = $statement->fetch(PDO::FETCH_ASSOC);
 
             ?>
+            <?php if ($messages) : ?>
+                <?php foreach($messages as $message) : ?>
+                    <div class="message">
+                        <p><?php echo $message ?></p>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
             <div class="form-group form-options">
                 <p class="form-option">User Type:</p>
                 <?php if (!$result) : ?>
