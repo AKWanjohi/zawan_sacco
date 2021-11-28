@@ -27,7 +27,6 @@ $accounts = $statement->fetchAll(PDO::FETCH_ASSOC);
                     <th>Name</th>
                     <th>Description</th>
                     <th>Balance</th>
-                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,7 +37,6 @@ $accounts = $statement->fetchAll(PDO::FETCH_ASSOC);
                         <td><?php echo $account['account_name'] ?></td>
                         <td><?php echo $account['account_desc'] ?></td>
                         <td>Kshs. <?php echo number_format($account['account_total_balance']) ?></td>
-                        <td class="actions"><a href="edit_account.php?id=<?php echo $account['account_id'] ?>">Edit</a></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

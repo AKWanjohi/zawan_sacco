@@ -69,6 +69,14 @@ main {
   color: inherit;
 }
 
+.login-notification {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
 /* Forms */
 form {
   max-width: 50rem;

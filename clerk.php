@@ -6,9 +6,13 @@ include 'components/header.php';
 ?>
 
 <main>
-    <div class="container controls">
-        <a href="edit_user.php?user=clerk&id=<?php echo $_SESSION['user_id'] ?>" class="control">Edit Details</a>
-        <a href="pending_loans.php" class="control">Pending Loans</a>
+    <div class="container">
+        <div class="login-notification">
+            <p>Logged in as Clerk</p>
+        </div>
+        <div class="controls">
+            <a href="pending_loans.php" class="control">Pending Loans</a>
+        </div>
     </div>
 </main>
 
