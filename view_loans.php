@@ -36,7 +36,7 @@ $loans = $statement->fetchAll(PDO::FETCH_ASSOC);
                     <th>Amount Repaid</th>
                     <th>Premium Amount</th>
                     <th>Date Actualized</th>
-                    <th>Actions</th>
+                    <th class='actions-header'>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -104,6 +104,9 @@ $loans = $statement->fetchAll(PDO::FETCH_ASSOC);
                 <?php endforeach; ?>
             </tbody>
         </table>
+        <div class="print-button">
+            <button onclick="window.print()" class="btn btn-create">Print</button>
+        </div>
     </div>
 </main>
 

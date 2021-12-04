@@ -41,7 +41,7 @@ function randomString($n)
     <div class="container">
         <div class="main-header">
             <h1>Create Account</h1>
-            <a href="client.php" class="btn btn-cancel">Back</a>
+            <a href="admin.php" class="btn btn-cancel">Back</a>
         </div>
         <hr>
         <form method="POST">
@@ -50,14 +50,14 @@ function randomString($n)
                 <input type="text" name="client_email" id="client_email" list='client-list' required>
             </div>
             <datalist id='client-list'>
-                <?php 
-                
+                <?php
+
                 $statement = $pdo->prepare("SELECT * FROM client");
                 $statement->execute();
                 $clients = $statement->fetchAll(PDO::FETCH_ASSOC);
 
                 ?>
-                <?php foreach($clients as $client) : ?>
+                <?php foreach ($clients as $client) : ?>
                     <option><?php echo $client['client_email'] ?></option>
                 <?php endforeach; ?>
             </datalist>

@@ -41,6 +41,9 @@ $accounts = $statement->fetchAll(PDO::FETCH_ASSOC);
                 <?php endforeach; ?>
             </tbody>
         </table>
+        <div class="print-button">
+            <button onclick="window.print()" class="btn btn-create">Print</button>
+        </div>
     </div>
 </main>
 

@@ -29,7 +29,7 @@ $charges = $statement->fetchAll(PDO::FETCH_ASSOC);
                     <th>Amount</th>
                     <th>Date</th>
                     <th>Status</th>
-                    <th>Actions</th>
+                    <th class="actions-header">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -58,6 +58,9 @@ $charges = $statement->fetchAll(PDO::FETCH_ASSOC);
                 <?php endforeach; ?>
             </tbody>
         </table>
+        <div class="print-button">
+            <button onclick="window.print()" class="btn btn-create">Print</button>
+        </div>
     </div>
 </main>
 
